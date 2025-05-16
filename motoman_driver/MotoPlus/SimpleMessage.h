@@ -177,7 +177,7 @@ typedef enum
 	Valid_Time = 1,
 	Valid_Position = 2,
 	Valid_Velocity = 4,
-	Valid_Acceleration = 8
+	Valid_Torque = 8
 } FlagsValidFields;
 
 //--------------
@@ -211,11 +211,11 @@ typedef struct _SmBodyJointTrajPtFull SmBodyJointTrajPtFull;
 struct _SmBodyJointFeedback		// ROS_MSG_JOINT_FEEDBACK = 15
 {
 	int groupNo;  				// Robot/group ID;  0 = 1st robot 
-	FlagsValidFields validFields;	// Bit-mask indicating which “optional” fields are filled with data. 1=time, 2=position, 4=velocity, 8=acceleration
+	FlagsValidFields validFields;	// Bit-mask indicating which “optional” fields are filled with data. 1=time, 2=position, 4=velocity, 8=torque
 	float time;					// Timestamp associated with this trajectory point; Units: in seconds 
 	float pos[ROS_MAX_JOINT];	// Feedback joint positions in radian.  Base to Tool joint order  
 	float vel[ROS_MAX_JOINT];	// Feedback joint velocities in radian/sec.  
-	float acc[ROS_MAX_JOINT];	// Feedback joint accelerations in radian/sec^2.
+	float torque[ROS_MAX_JOINT];	// HC torque
 } __attribute__((__packed__));
 typedef struct _SmBodyJointFeedback SmBodyJointFeedback;
 

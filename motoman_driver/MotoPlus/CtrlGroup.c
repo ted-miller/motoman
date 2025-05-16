@@ -451,7 +451,7 @@ BOOL Ros_CtrlGroup_GetFBServoSpeed(CtrlGroup* ctrlGroup, long pulseSpeed[MAX_PUL
 //-------------------------------------------------------------------
 // Retrieves the absolute value (Nm) of the HC F/T sensors
 //-------------------------------------------------------------------
-BOOL Ros_CtrlGroup_GetHcTorque(CtrlGroup* ctrlGroup, double torqueValues[MAX_PULSE_AXES])
+BOOL Ros_CtrlGroup_GetHcTorque(CtrlGroup* ctrlGroup, float torqueValues[MAX_PULSE_AXES])
 {
     MP_IO_INFO registerInfo[6]; //currently, HC is limited to 6 axes
     USHORT registerValues[6];
@@ -471,7 +471,7 @@ BOOL Ros_CtrlGroup_GetHcTorque(CtrlGroup* ctrlGroup, double torqueValues[MAX_PUL
     for (i = 0; i < 6; i += 1)
     {
         //Each register value is expressed in units of 0.1 Nm and output by adding an offset of 10000 (per HW1484764)
-        torqueValues[i] = ((double)(registerValues[i] - 10000)) * 0.1;
+        torqueValues[i] = ((float)(registerValues[i] - 10000)) * 0.1;
     }
 
     return TRUE;

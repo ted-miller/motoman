@@ -53,6 +53,7 @@ int Ros_SimpleMsg_JointFeedback(CtrlGroup* ctrlGroup, SimpleMsg* sendMsg)
 	int bRet;
 	long pulsePos[MAX_PULSE_AXES];
 	long pulseSpeed[MAX_PULSE_AXES];
+    float hcTorque[MAX_PULSE_AXES];
 	
 	//initialize memory
 	memset(sendMsg, 0x00, sizeof(SimpleMsg));
@@ -82,6 +83,14 @@ int Ros_SimpleMsg_JointFeedback(CtrlGroup* ctrlGroup, SimpleMsg* sendMsg)
 		Ros_CtrlGroup_ConvertToRosPos(ctrlGroup, pulseSpeed, sendMsg->body.jointFeedback.vel);
 		sendMsg->body.jointFeedback.validFields |= Valid_Velocity;
 	}
+
+    //hc torque
+    bRet = Ros_CtrlGroup_GetHcTorque(ctrlGroup, hcTorque);
+    if (bRet)
+    {
+        sendMsg->body.jointFeedback.validFields |= Valid_Torque;
+        memcpy(sendMsg->body.jointFeedback.torque, hcTorque, sizeof(hcTorque));
+    }
 	
 	return(sendMsg->prefix.length + sizeof(SmPrefix));
 }

@@ -162,6 +162,14 @@ void Ros_StateServer_SendState(Controller* controller, int connectionIndex)
 				printf("Ros_SimpleMsg_JointFeedback returned a message size of 0\r\n");
 				bOkToSendExFeedback = FALSE;
 			}
+
+            msgSize = Ros_SimpleMsg_HcFeedback(controller->ctrlGroups[groupNo], &sendMsg);
+            if (msgSize > 0)
+            {
+                bSuccesfulSend = Ros_StateServer_SendMsgToAllClient(controller, connectionIndex, &sendMsg, msgSize);
+                if (!bSuccesfulSend)
+                    break;
+            }
 		}
 
 		if (controller->numGroup < 2) //only send the ROS_MSG_MOTO_JOINT_FEEDBACK_EX message if we have multiple control groups

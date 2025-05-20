@@ -86,6 +86,41 @@ int Ros_SimpleMsg_JointFeedback(CtrlGroup* ctrlGroup, SimpleMsg* sendMsg)
 	return(sendMsg->prefix.length + sizeof(SmPrefix));
 }
 
+int Ros_SimpleMsg_HcFeedback(CtrlGroup* ctrlGroup, SimpleMsg* sendMsg)
+{
+    int bRet;
+    float jointTorque[6];
+    float tcpForce[6];
+
+    //initialize memory
+    memset(sendMsg, 0x00, sizeof(SimpleMsg));
+
+    // set prefix: length of message excluding the prefix
+    sendMsg->prefix.length = sizeof(SmHeader) + sizeof(SmBodyHcFeedback);
+
+    // set header information
+    sendMsg->header.msgType = ROS_MSG_MOTO_HC_FEEDBACK;
+    sendMsg->header.commType = ROS_COMM_TOPIC;
+    sendMsg->header.replyType = ROS_REPLY_INVALID;
+
+    // set body
+    sendMsg->body.jointFeedback.groupNo = ctrlGroup->groupNo;
+
+    
+    bRet = Ros_CtrlGroup_GetHcTorque(ctrlGroup, jointTorque);
+    if (bRet != TRUE)
+        return 0;
+    memcpy(sendMsg->body.hcFeedback.jointTorque, jointTorque, sizeof(jointTorque));
+
+    bRet = Ros_CtrlGroup_GetHcTcpForce(ctrlGroup, tcpForce);
+    if (bRet != TRUE)
+        return 0;
+    memcpy(sendMsg->body.hcFeedback.tcpForce, tcpForce, sizeof(float) * 3);
+    memcpy(sendMsg->body.hcFeedback.tcpMoment, &(tcpForce[3]), sizeof(float) * 3);
+
+    return(sendMsg->prefix.length + sizeof(SmPrefix));
+}
+
 // Initialize header for a simple message of type: ROS_MSG_MOTO_JOINT_FEEDBACK_EX = 17
 void Ros_SimpleMsg_JointFeedbackEx_Init(int numberOfGroups, SimpleMsg* sendMsg)
 {	

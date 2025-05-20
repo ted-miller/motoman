@@ -75,7 +75,9 @@ typedef enum
 
 	ROS_MSG_MOTO_JOINT_TRAJ_PT_FULL_EX = 2016,
 	ROS_MSG_MOTO_JOINT_FEEDBACK_EX = 2017,
-	ROS_MSG_MOTO_SELECT_TOOL = 2018,
+    ROS_MSG_MOTO_SELECT_TOOL = 2018,
+
+    ROS_MSG_MOTO_HC_FEEDBACK = 2019,
 
 	ROS_MSG_MOTO_GET_DH_PARAMETERS = 2020
 } SmMsgType;
@@ -375,6 +377,15 @@ struct _SmBodyMotoWriteIOMRegisterReply
 } __attribute__((__packed__));
 typedef struct _SmBodyMotoWriteIOMRegisterReply SmBodyMotoWriteIOMRegisterReply;
 
+struct _SmBodyHcFeedback
+{
+    int groupNo;
+    float jointTorque[6];   //Nm
+    float tcpForce[3];      //N
+    float tcpMoment[3];
+} __attribute__((__packed__));
+typedef struct _SmBodyHcFeedback SmBodyHcFeedback;
+
 //--------------
 // DH Parameters
 //--------------
@@ -413,6 +424,7 @@ typedef union
 	SmBodyMotoReadIOMRegisterReply readRegisterReply;
 	SmBodyMotoWriteIOMRegister writeRegister;
 	SmBodyMotoWriteIOMRegisterReply writeRegisterReply;
+    SmBodyHcFeedback hcFeedback;
 } SmBody;
 
 //-------------------
@@ -434,6 +446,8 @@ typedef struct _SimpleMsg SimpleMsg;
 extern int Ros_SimpleMsg_JointFeedback(CtrlGroup* ctrlGroup, SimpleMsg* sendMsg);
 extern void Ros_SimpleMsg_JointFeedbackEx_Init(int numberOfGroups, SimpleMsg* sendMsg);
 extern int Ros_SimpleMsg_JointFeedbackEx_Build(int groupIndex, SimpleMsg* src_msgFeedback, SimpleMsg* dst_msgExtendedFeedback);
+
+extern int Ros_SimpleMsg_HcFeedback(CtrlGroup* ctrlGroup, SimpleMsg* sendMsg);
 
 extern int Ros_SimpleMsg_MotionReply(SimpleMsg* receiveMsg, int result, int subcode, SimpleMsg* replyMsg, int ctrlGrp);
 extern int Ros_SimpleMsg_IoReply(int result, int subcode, SimpleMsg* replyMsg);

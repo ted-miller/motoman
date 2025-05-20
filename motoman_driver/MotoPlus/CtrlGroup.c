@@ -449,30 +449,60 @@ BOOL Ros_CtrlGroup_GetFBServoSpeed(CtrlGroup* ctrlGroup, long pulseSpeed[MAX_PUL
 }
 
 //-------------------------------------------------------------------
-// Retrieves the absolute value (Nm) of the maximum current servo torque.
+// Retrieves the absolute value (Nm) of the HC F/T sensors
 //-------------------------------------------------------------------
-BOOL Ros_CtrlGroup_GetTorque(CtrlGroup* ctrlGroup, double torqueValues[MAX_PULSE_AXES])
+BOOL Ros_CtrlGroup_GetHcTorque(CtrlGroup* ctrlGroup, float torqueValues[6])
 {
-    MP_GRP_AXES_T dst_vel;
-    MP_TRQ_CTL_VAL dst_trq;
-  	LONG status = 0;
-  	int i;
+    MP_IO_INFO registerInfo[6]; //currently, HC is limited to 6 axes
+    USHORT registerValues[6];
+    int ret;
+    int i;
 
-	memset(torqueValues, 0, sizeof(double [MAX_PULSE_AXES])); // clear result, in case of error
-	memset(dst_trq.data, 0, sizeof(MP_TRQCTL_DATA));
-	dst_trq.unit = TRQ_NEWTON_METER; //request data in Nm
+    memset(torqueValues, 0x00, sizeof(torqueValues));
 
-	memset(&dst_vel, 0x00, sizeof(MP_GRP_AXES_T));
+    for (i = 0; i < 6; i += 1)
+        registerInfo[i].ulAddr = 1000000 + 310 + i; // M310 - M315 : Estimated external torque value for each axis
 
-	status = mpSvsGetVelTrqFb(dst_vel, &dst_trq);
-	if (status != OK)
-		return FALSE;
+    ret = mpReadIO(registerInfo, registerValues, 6);
 
-	for (i = 0; i < MAX_PULSE_AXES; i += 1) 
-	{
-	    torqueValues[i] = (double)dst_trq.data[ctrlGroup->groupId][i] * 0.000001; //Use double.  Float only good for 6 sig digits.
-	}
-    
+    if (ret != OK)
+        return FALSE;
+
+    for (i = 0; i < 6; i += 1)
+    {
+        //Each register value is expressed in units of 0.1 Nm and output by adding an offset of 10000 (per HW1484764)
+        torqueValues[i] = ((float)(registerValues[i] - 10000)) * 0.1;
+    }
+
+    return TRUE;
+}
+
+//-------------------------------------------------------------------
+// Retrieves the absolute value (N) of the tcp force
+//-------------------------------------------------------------------
+BOOL Ros_CtrlGroup_GetHcTcpForce(CtrlGroup* ctrlGroup, float forceValues[6])
+{
+    MP_IO_INFO registerInfo[6];
+    USHORT registerValues[6];
+    int ret;
+    int i;
+
+    memset(forceValues, 0x00, sizeof(forceValues));
+
+    for (i = 0; i < 6; i += 1)
+        registerInfo[i].ulAddr = 1000000 + 320 + i; // M320 - M325 : Estimated external torque value for each axis
+
+    ret = mpReadIO(registerInfo, registerValues, 6);
+
+    if (ret != OK)
+        return FALSE;
+
+    for (i = 0; i < 6; i += 1)
+    {
+        //Each register value is expressed in units of 0.1 N and output by adding an offset of 10000 (per HW1484764)
+        forceValues[i] = ((float)(registerValues[i] - 10000)) * 0.1;
+    }
+
     return TRUE;
 }
 

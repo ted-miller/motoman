@@ -53,11 +53,24 @@ namespace industrial_robot_client
             industrial::byte_array::ByteArray bytes = msg_in.getData();
 
             industrial::shared_types::shared_int groupNo;
-            bytes.unload(groupNo);
-
             industrial::shared_types::shared_real sreal;
 
             *hc_sensor = motoman_msgs::HcFtSensor();
+
+            bytes.unload(sreal);
+            hc_sensor->tcp.torque.z = sreal;
+            bytes.unload(sreal);
+            hc_sensor->tcp.torque.y = sreal;
+            bytes.unload(sreal);
+            hc_sensor->tcp.torque.x = sreal;
+
+            bytes.unload(sreal);
+            hc_sensor->tcp.force.z = sreal;
+            bytes.unload(sreal);
+            hc_sensor->tcp.force.y = sreal;
+            bytes.unload(sreal);
+            hc_sensor->tcp.force.x = sreal;
+            
             hc_sensor->joints.resize(6);
             for (int i = 0; i < 6; i += 1)
             {
@@ -65,19 +78,7 @@ namespace industrial_robot_client
                 hc_sensor->joints[i] = sreal;
             }
 
-            bytes.unload(sreal);
-            hc_sensor->tcp.force.x = sreal;
-            bytes.unload(sreal);
-            hc_sensor->tcp.force.y = sreal;
-            bytes.unload(sreal);
-            hc_sensor->tcp.force.z = sreal;
-
-            bytes.unload(sreal);
-            hc_sensor->tcp.torque.x = sreal;
-            bytes.unload(sreal);
-            hc_sensor->tcp.torque.y = sreal;
-            bytes.unload(sreal);
-            hc_sensor->tcp.torque.z = sreal;
+            bytes.unload(groupNo);
 
             this->pub_hc_sensor_state.publish(*hc_sensor);
 

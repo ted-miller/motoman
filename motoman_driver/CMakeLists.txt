@@ -23,6 +23,7 @@ find_package(
     std_msgs
     std_srvs
     trajectory_msgs
+	geometry_msgs
     urdf
 )
 
@@ -56,6 +57,7 @@ catkin_package(
     std_msgs
     std_srvs
     trajectory_msgs
+	geometry_msgs
     urdf
   # TODO(gavanderhoorn): check whether this can be removed
   INCLUDE_DIRS
@@ -64,6 +66,7 @@ catkin_package(
 
 
 set(MSG_SRC_FILES
+  src/simple_message/messages/hc_feedback_message.cpp
   src/simple_message/messages/motoman_motion_ctrl_message.cpp
   src/simple_message/messages/motoman_motion_reply_message.cpp
   src/simple_message/messages/motoman_read_mregister_message.cpp
@@ -97,6 +100,7 @@ set(MSG_SRC_FILES
 )
 
 set(CLIENT_SRC_FILES
+  src/industrial_robot_client/hc_relay_handler.cpp
   src/industrial_robot_client/joint_feedback_ex_relay_handler.cpp
   src/industrial_robot_client/joint_feedback_relay_handler.cpp
   src/industrial_robot_client/joint_relay_handler.cpp
@@ -104,6 +108,7 @@ set(CLIENT_SRC_FILES
   src/industrial_robot_client/joint_trajectory_streamer.cpp
   src/industrial_robot_client/motoman_utils.cpp
   src/industrial_robot_client/robot_state_interface.cpp
+  src/simple_message/hc_feedback.cpp
   src/simple_message/joint_feedback_ex.cpp
   src/simple_message/joint_traj_pt_full_ex.cpp
   src/simple_message/messages/joint_feedback_ex_message.cpp

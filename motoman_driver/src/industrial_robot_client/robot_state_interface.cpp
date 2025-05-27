@@ -52,6 +52,8 @@ RobotStateInterface::RobotStateInterface()
   this->add_handler(&default_joint_feedback_handler_);
   this->add_handler(&default_joint_feedback_ex_handler_);
   this->add_handler(&default_robot_status_handler_);
+  this->add_handler(&default_hc_sensor_handler_);
+  
 }
 
 bool RobotStateInterface::init(std::string default_ip, int default_port, bool version_0)
@@ -146,6 +148,13 @@ bool RobotStateInterface::init(SmplMsgConnection* connection, std::map<int, Robo
   }
   this->add_handler(&default_robot_status_handler_);
 
+  if (!default_hc_sensor_handler_.init(connection_))
+  {
+      ROS_ERROR("Failed to initialize hc sensor handler");
+      return false;
+  }
+  this->add_handler(&default_hc_sensor_handler_);
+
   connection_->makeConnect();
 
   ROS_INFO("Successfully initialized robot state interface");
@@ -174,6 +183,10 @@ bool RobotStateInterface::init(SmplMsgConnection* connection, std::vector<std::s
   if (!default_robot_status_handler_.init(connection_))
     return false;
   this->add_handler(&default_robot_status_handler_);
+
+  if (!default_hc_sensor_handler_.init(connection_))
+      return false;
+  this->add_handler(&default_hc_sensor_handler_);
 
   return true;
 }

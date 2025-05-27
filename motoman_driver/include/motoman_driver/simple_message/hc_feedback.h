@@ -8,14 +8,14 @@
 #include "simple_message/simple_serialize.h"
 #include "simple_message/shared_types.h"
 #include "simple_message/joint_feedback.h"
-#include "simple_message/messages/hc_feedback_message.h"
+//#include "simple_message/messages/hc_feedback_message.h"
 #else
 #include "joint_data.h"        // NOLINT(build/include)
 #include "simple_message.h"    // NOLINT(build/include)
 #include "simple_serialize.h"  // NOLINT(build/include)
 #include "shared_types.h"      // NOLINT(build/include)
 #include "joint_feedback.h"    // NOLINT(build/include)
-#include "messages/hc_feedback_message.h"
+//#include "messages/hc_feedback_message.h"
 #endif
 
 #include<vector>

@@ -24,16 +24,11 @@ namespace industrial_robot_client
         public:
             HcRelayHandler() {}
 
-            bool init(industrial::smpl_msg_connection::SmplMsgConnection* connection)
-            {
-                return init(connection, 2019);
-            }
+            bool init(industrial::smpl_msg_connection::SmplMsgConnection* connection);
 
         protected:
             ros::Publisher pub_hc_sensor_state;
             ros::NodeHandle node_;
-
-            bool init(industrial::smpl_msg_connection::SmplMsgConnection* connection, int msg_type);
             
             bool create_messages(SimpleMessage& msg_in, motoman_msgs::HcFtSensor* hc_sensor);
 

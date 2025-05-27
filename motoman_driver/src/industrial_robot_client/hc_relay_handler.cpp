@@ -8,11 +8,11 @@ namespace industrial_robot_client
     namespace hc_relay_handler
     {
 
-        bool HcRelayHandler::init(industrial::smpl_msg_connection::SmplMsgConnection* connection, int msg_type)
+        bool HcRelayHandler::init(industrial::smpl_msg_connection::SmplMsgConnection* connection)
         {
             this->pub_hc_sensor_state = this->node_.advertise<motoman_msgs::HcFtSensor>("hc_sensor", 1);
 
-            return MessageHandler::init(msg_type, connection);
+            return MessageHandler::init(2019, connection);
         }
 
         bool HcRelayHandler::internalCB(SimpleMessage& msg_in)

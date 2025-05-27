@@ -7,6 +7,7 @@ find_package(catkin
     message_generation
     std_msgs
     trajectory_msgs
+	geometry_msgs
 )
 
 add_message_files(
@@ -18,6 +19,7 @@ add_message_files(
     DynamicJointTrajectory.msg
     DynamicJointTrajectoryFeedback.msg
     DynamicJointsGroup.msg
+	HcFtSensor.msg
 )
 
 add_service_files(
@@ -39,6 +41,7 @@ generate_messages(
     industrial_msgs
     std_msgs
     trajectory_msgs
+	geometry_msgs
 )
 
 catkin_package(
@@ -47,4 +50,5 @@ catkin_package(
       message_runtime
       std_msgs
       trajectory_msgs
+	  geometry_msgs
 )

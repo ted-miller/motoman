@@ -72,7 +72,7 @@ namespace industrial_robot_client
             hc_sensor->tcp.force.x = sreal;
             
             hc_sensor->joints.resize(6);
-            for (int i = 0; i < 6; i += 1)
+            for (int i = 5; i >= 0; i -= 1)
             {
                 bytes.unload(sreal);
                 hc_sensor->joints[i] = sreal;

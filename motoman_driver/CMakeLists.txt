@@ -66,7 +66,7 @@ catkin_package(
 
 
 set(MSG_SRC_FILES
-  src/simple_message/messages/hc_feedback_message.cpp
+  #src/simple_message/messages/hc_feedback_message.cpp
   src/simple_message/messages/motoman_motion_ctrl_message.cpp
   src/simple_message/messages/motoman_motion_reply_message.cpp
   src/simple_message/messages/motoman_read_mregister_message.cpp
@@ -108,7 +108,7 @@ set(CLIENT_SRC_FILES
   src/industrial_robot_client/joint_trajectory_streamer.cpp
   src/industrial_robot_client/motoman_utils.cpp
   src/industrial_robot_client/robot_state_interface.cpp
-  src/simple_message/hc_feedback.cpp
+  #src/simple_message/hc_feedback.cpp
   src/simple_message/joint_feedback_ex.cpp
   src/simple_message/joint_traj_pt_full_ex.cpp
   src/simple_message/messages/joint_feedback_ex_message.cpp

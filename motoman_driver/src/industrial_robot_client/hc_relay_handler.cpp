@@ -27,15 +27,15 @@ namespace industrial_robot_client
             else
                 rtn = false;
 
-            // Reply back to the controller if the sender requested it.
-            if (CommTypes::SERVICE_REQUEST == msg_in.getMessageType())
-            {
-                SimpleMessage reply;
-                reply.init(msg_in.getMessageType(),
-                    CommTypes::SERVICE_REPLY,
-                    rtn ? ReplyTypes::SUCCESS : ReplyTypes::FAILURE);
-                this->getConnection()->sendMsg(reply);
-            }
+            //// Reply back to the controller if the sender requested it.
+            //if (CommTypes::SERVICE_REQUEST == msg_in.getMessageType())
+            //{
+            //    SimpleMessage reply;
+            //    reply.init(msg_in.getMessageType(),
+            //        CommTypes::SERVICE_REPLY,
+            //        rtn ? ReplyTypes::SUCCESS : ReplyTypes::FAILURE);
+            //    this->getConnection()->sendMsg(reply);
+            //}
 
             return rtn;
         }

@@ -42,13 +42,13 @@ namespace industrial_robot_client
 
         bool HcRelayHandler::create_messages(SimpleMessage& msg_in, motoman_msgs::HcFtSensor* hc_sensor)
         {
-            HcFeedbackMessage message;
+            //HcFeedbackMessage message;
 
-            if (!message.init(msg_in))
-            {
-                LOG_ERROR("Failed to initialize hc message");
-                return false;
-            }
+            //if (!message.init(msg_in))
+            //{
+            //    LOG_ERROR("Failed to initialize hc message");
+            //    return false;
+            //}
 
             industrial::byte_array::ByteArray* bytes = msg_in.getData();
 

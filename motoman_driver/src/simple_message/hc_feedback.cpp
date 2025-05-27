@@ -11,7 +11,7 @@
 #include "log_wrapper.h"        // NOLINT(build/include)
 #endif
 
-using industrial::hc_feedback_message::HcFeedbackMessage;
+//using industrial::hc_feedback_message::HcFeedbackMessage;
 using industrial::joint_feedback::JointFeedback;
 
 namespace industrial
